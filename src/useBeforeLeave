@@ -1,0 +1,24 @@
+import { useEffect } from 'react';
+
+const useBeforLeave = (onBefore) => {
+  const handle = (e) => {
+    const { clientY } = e;
+    if (clientY <= 0) {
+      onBefore();
+    }
+  };
+  useEffect(() => {
+    if (typeof onBefore === 'function') {
+      document.addEventListener('mouseleave', handle);
+      return () => document.removeEventListener('mouseleave', handle);
+    } else {
+      return;
+    }
+  }, []);
+};
+
+export const App = () => {
+  const begForList = () => console.log('pls dont leave');
+  useBeforLeave(begForList);
+  return <div className="App"></div>;
+};
